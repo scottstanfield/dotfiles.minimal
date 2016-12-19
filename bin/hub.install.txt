@@ -1,0 +1,4 @@
+wget https://github.com/github/hub/releases/download/v2.3.0-pre8/hub-linux-amd64-2.3.0-pre8.tgz
+tar xvf hub-linux-amd64-2.3.0-pre8.tgz
+rm hub-linux-amd64-2.3.0-pre8.tgz
+cd hub-linux-amd64-2.3.0-pre8 && sudo ./install
