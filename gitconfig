@@ -1,0 +1,13 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Scott Stanfield
+	email = scottstanfield@gmail.com
+[core]
+	editor = vim
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit 
+
