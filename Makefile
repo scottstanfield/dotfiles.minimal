@@ -1,5 +1,5 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
-FOLDERS    := bin .config
+FOLDERS    := bin .config/nvim
 FILES      := $(wildcard ??*) 
 EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml Makefile $(FOLDERS)
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(FILES))

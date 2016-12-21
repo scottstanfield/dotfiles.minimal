@@ -7,32 +7,6 @@ set clipboard=unnamed			" Use the global, system clipboard
 
 
 
-" Settings for moving between windows. 
-" Here mostly for Nvim-r
-    nnoremap <silent> <S-Up> :wincmd k<CR>
-    nnoremap <silent> <S-Down> :wincmd j<CR>
-    nnoremap <silent> <S-Left> :wincmd h<CR>
-    nnoremap <silent> <S-Right> :wincmd l<CR>
-autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
-
-tnoremap <leader><ESC> <C-\><C-n>
-tnoremap <PageUp>   <C-\><C-w>H
-tnoremap <PageDown> <C-\><C-w>J
-
-tnoremap <M-h> <C-\><C-n><C-w>h
-tnoremap <M-j> <C-\><C-n><C-w>j
-tnoremap <M-k> <C-\><C-n><C-w>k
-tnoremap <M-l> <C-\><C-n><C-w>l
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>
-
-" tnoremap <C-h> <C-\><C-n><C-h>
-" tnoremap <C-j> <C-\><C-n><C-j>
-" tnoremap <C-k> <C-\><C-n><C-k>
-" tnoremap <C-l> <C-\><C-n><C-l>
-
 highlight TermCursor ctermfg=red 			" make :terminal cursor red
 highlight Search term=bold ctermbg=225 guibg=LightMagenta
 
@@ -85,28 +59,14 @@ highlight Search term=bold ctermbg=225 guibg=LightMagenta
     set shiftwidth=4        " no clue what this does
     set shiftround          " if spaces, TAB maps to right spot
 
-    " set fo+=c             " Auto-wrap comments, inserting comment leader
-    " set fo+=t               " Auto-wrap text using textwidth
-    " set fo-=r               " Do not auto insert a comment leader after <Enter>
-    " set fo-=n
-
     " Change tabs to spaces, or the other way around. Good for Python!
     nmap <leader>1 :set et<cr>:retab<cr>
     nmap <leader>2 :set noet<cr>:retab!<cr>
     " remove trailing spaces
-
-    set pastetoggle=<F2>            " --INSERT (paste)-- means safe for formatted text
-
-    nnoremap <leader>o :set paste<CR>:put *<CR>:set nopaste<CR>
 " 
 
 
 " Buffer Management g
-
-    " I never really used buffers so I removed these commands
-    " nnoremap L :bnext<CR>
-    " nnoremap H :bprev<CR>
-
     nnoremap <silent> <S-Up> :wincmd k<CR>
     nnoremap <silent> <S-Down> :wincmd j<CR>
     nnoremap <silent> <S-Left> :wincmd h<CR>
@@ -177,7 +137,7 @@ highlight Search term=bold ctermbg=225 guibg=LightMagenta
     ab [left] ←
     ab [right] →
     ab [pi] π
-	ab [shrug]  ¯\_(ツ)_/¯
+    ab [shrug]  ¯\_(ツ)_/¯
 
     " Toggle invisible whiteSpace ¬ ¶
     nnoremap <leader>i :set list!<CR>
@@ -280,34 +240,34 @@ nnoremap <c-p> /%\u.\{-1,}%<cr>c/%/e<cr>
     " Follow install directions here:
     " https://github.com/junegunn/vim-plug
     "
-    " if empty(glob('~/.vim/autoload/plug.vim'))
-    "   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    "       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    "   autocmd VimEnter * PlugInstall | source $MYVIMRC
-    " endif
+    if empty(glob('~/.config/nvim/autoload/plug.vim'))
+      silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall
+    endif
 
-    call plug#begin()
+    call plug#begin('~/.config/nvim/plugged')
 
 	" Plug 'tpope/vim-sensible'			" not needed with neovim
 
 	Plug 'kassio/neoterm'
 
 	" Python
-	Plug 'neomake/neomake'
-	let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']
-	let g:neomake_python_flake8_maker = { 'args': ['--ignore=E302,E501'], }
-	autocmd! BufWritePost * Neomake
-
+"	Plug 'neomake/neomake'
+"	let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']
+"	let g:neomake_python_flake8_maker = { 'args': ['--ignore=E302,E501'], }
+"	autocmd! BufWritePost * Neomake
+"
 	" For R language
-	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
-	Plug 'jalvesaq/colorout', { 'for': 'r' }
-	vmap <Space> <Plug>RDSendSelection
-	nmap <Space> <Plug>RDSendLine
-	let R_assign = 0
-	let R_vsplit = 1
-	let R_args = ['--no-save']
-	" I needed to run `brew link --force readline` in order to get gcc5
-	" to compile nvimcom (which updates automatically when you invoke nvim-r)
+"	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
+"	Plug 'jalvesaq/colorout', { 'for': 'r' }
+"	vmap <Space> <Plug>RDSendSelection
+"	nmap <Space> <Plug>RDSendLine
+"	let R_assign = 0
+"	let R_vsplit = 1
+"	let R_args = ['--no-save']
+"	" I needed to run `brew link --force readline` in order to get gcc5
+"	" to compile nvimcom (which updates automatically when you invoke nvim-r)
 
     Plug 'kshenoy/vim-signature'                    " show marks in margin
     Plug 'tpope/vim-surround'
@@ -374,12 +334,6 @@ endif
 " 
 
 " Auto Commands autocmds g
-
-let g:dbext_default_profile_sqlite = 'type=SQLITE:dbname=cc3.db'
-augroup sql
-    au!
-    autocmd BufRead *.sql DBSetOption profile=sqlite
-augroup end
 
 
 " Wrapping autocmd in a group per http://bit.ly/15wKRrM
