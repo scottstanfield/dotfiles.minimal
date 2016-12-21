@@ -8,10 +8,6 @@ DOTFILES   := $(filter-out $(EXCLUSIONS), $(FILES))
 
 all:
 
-list: ## Show dot files in this repo
-	@$(foreach val, $(DOTFILES), /bin/ls -ldF $(val);)
-	@$(foreach val, $(FOLDERS), /bin/ls -ldF $(val);)
-
 debug: ## just echo what deploy would do
 	@echo 'make deploy will link the following:'
 	@$(foreach val, $(DOTFILES), echo $(abspath $(val)) "-->" $(HOME)/.$(val) ;)
@@ -22,16 +18,13 @@ deploy: ## Create symlink to home directory
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/.$(val);)
 	@$(foreach val, $(FOLDERS),  ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 
-#init: ## Setup environment settings
-#	@DOTPATH=$(DOTPATH) bash $(DOTPATH)/etc/init/init.sh
-
 update: ## Fetch changes for this repo
 	git pull origin master
 	git submodule init
 	git submodule update
 	git submodule foreach git pull origin master
 
-install: update deploy init ## Run make update, deploy, init
+install: update deploy ## Run make update, deploy <--- you want this
 	@exec $$SHELL
 
 clean: ## Remove the dot files and this repo
