@@ -1,5 +1,5 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
-FOLDERS    := bin
+FOLDERS    := bin .config
 FILES      := $(wildcard ??*) 
 EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml Makefile $(FOLDERS)
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(FILES))
@@ -22,8 +22,8 @@ deploy: ## Create symlink to home directory
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/.$(val);)
 	@$(foreach val, $(FOLDERS),  ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 
-init: ## Setup environment settings
-	@DOTPATH=$(DOTPATH) bash $(DOTPATH)/etc/init/init.sh
+#init: ## Setup environment settings
+#	@DOTPATH=$(DOTPATH) bash $(DOTPATH)/etc/init/init.sh
 
 update: ## Fetch changes for this repo
 	git pull origin master

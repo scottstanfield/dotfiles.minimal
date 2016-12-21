@@ -36,6 +36,7 @@ endif
 set laststatus=2
 set ruler
 set wildmenu
+set modeline
 
 if !&scrolloff
   set scrolloff=1
@@ -91,3 +92,9 @@ endif
 inoremap <C-U> <C-G>u<C-U>
 
 " vim:set ft=vim et sw=2:
+"
+
+" Put cursor where we last saw it on reopening the file
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
