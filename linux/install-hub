@@ -1,4 +1,4 @@
-#!env zsh
+#/bin/sh
 tag=2.2.9
 basename=hub-linux-amd64-$tag
 url=https://github.com/github/hub/releases/download/v$tag/$basename.tgz
@@ -6,5 +6,5 @@ echo Downloading $url
 wget -q $url
 tar xf $basename.tgz
 sudo ./$basename/install
-where hub
+which hub
 hub --version

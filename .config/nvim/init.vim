@@ -248,6 +248,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'kassio/neoterm'
 
+if has('nvim')
+	Plug 'benekastah/neomake'
+endif
+
 " Python
 "	Plug 'neomake/neomake'
 "	let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']

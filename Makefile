@@ -1,7 +1,7 @@
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 FOLDERS    := bin .config/nvim
 FILES      := $(wildcard ??*) 
-EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml Makefile $(FOLDERS)
+EXCLUSIONS := lib .DS_Store .git .gitmodules .travis.yml Makefile $(FOLDERS)
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(FILES))
 
 .DEFAULT_GOAL := help
@@ -15,6 +15,7 @@ debug: ## just echo what deploy would do
 
 deploy: ## Create symlink to home directory
 	@echo '==> Deploy dotfiles to home directory.'
+	-mkdir ~/.config
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/.$(val);)
 	@$(foreach val, $(FOLDERS),  ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 
