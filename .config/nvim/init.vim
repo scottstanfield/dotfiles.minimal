@@ -2,69 +2,85 @@ let mapleader = ","             " Our free key to prefix custom commands
 let localleader = "\\"
 set hidden                      " switch buffers w/o saving
 set shell=/bin/sh
-
 set clipboard=unnamed			" Use the global, system clipboard
 
 
-
+""""""""
+" COLORS
+""""""""
+syntax on
 highlight TermCursor ctermfg=red 			" make :terminal cursor red
 highlight Search term=bold ctermbg=225 guibg=LightMagenta
 
+" Colors (solarized) g
+    " let g:solarized_contrast="high"     
+    " let g:solarized_visibility="high"
+    " call togglebg#map("<leader>x")          " ,x toggles dark/light
 
-" Older settings below
-""""""""""""""""""""""
+    " let profile = $ITERM_PROFILE
+    " if profile ==? 'solarized-dark'
+    "     set background=dark                 " light | dark
+    "     hi colorcolumn ctermbg=darkgrey
+    " else
+    "     set background=light
+    "     hi colorcolumn ctermbg=lightgrey
+    " endif
+    " colorscheme solarized
+    " "  Remove next line comment to force dark color scheme.
+    " "  Usually it's picked because iTerm2 will pass it in.
+    " " setenv ITERM_PROFILE solarized-dark
+" 
+
+"""""""""""""""""
+" TABS AND SPACES
+"""""""""""""""""
+set smartindent         " be smart about it
+set nowrap              " do not wrap lines please
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4        " no clue what this does
+set shiftround          " if spaces, TAB maps to right spot
+
+" Change tabs to spaces, or the other way around. Good for Python!
+nmap <leader>1 :set et<cr>:retab<cr>	
+nmap <leader>2 :set noet<cr>:retab!<cr>
+
 
 " General g
-    set nobackup                    " don't let vim backup files
-    set noswapfile
-    set nowritebackup               " And again.
-    set autochdir                   " always switch to current dir
-    set backupdir=~/.vim/backup
-    set wildmode=list:longest       " Complete files like a shell.
-    set modeline
-    set noerrorbells                " No beeping!
-    set visualbell                  " No flashing either.
-    set wildignore+=*.jpg,*.gif,*.png,*.git,*.gem,*.zip,*.tar.gz
-    set wildignore+=node_modules
+set nobackup                    " don't let vim backup files
+set noswapfile
+set nowritebackup               " And again.
+set autochdir                   " always switch to current dir
+set wildmode=list:longest       " Complete files like a shell.
+set modeline
+set noerrorbells                " No beeping!
+set visualbell                  " No flashing either.
+set wildignore+=*.jpg,*.gif,*.png,*.git,*.gem,*.zip,*.tar.gz,node_modules
 
-    " After searching with /, hitting <leader>/ toggles highlight
+"""""""""""
+" UI CONFIG
+"""""""""""
+"let loaded_matchparen = 1       " Just use % instead of auto paren matching
+" set colorcolumn=80            " vertical line at 80 cols
+set nostartofline               " Searches leave cursor on same column
+set ignorecase                  " Case-insensitive searching.
+set lazyredraw                  " No redraw during macro execution
+set number                      " Show line numbers.
+set shortmess=atI               " stifle the long interrupt prompts
+set showmode                    " Display the mode you're in.
+set smartcase                   " But case-sensitive if has caps
+set scrolloff=3                 " Show 3 lines around cursor (more context)
+set noshowmode                  " hide the default mode text (e.g. -- INSERT --)
+set title                       " Set the terminal's title
+
+" Open new split panes to the right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+
+
+    " <leader>/ toggles highlight (really useful!)
     nnoremap <silent> <leader>/ :set hlsearch! hlsearch?<CR>
-" 
-
-" UI g
-    let loaded_matchparen = 1       " Just use % instead of auto paren matching
-    " set colorcolumn=80            " vertical line at 80 cols
-    set nostartofline               " Searches leave cursor on same column
-    set ignorecase                  " Case-insensitive searching.
-    set lazyredraw                  " No redraw during macro execution
-    set number                      " Show line numbers.
-    set shortmess=atI               " stifle the long interrupt prompts
-    set showmode                    " Display the mode you're in.
-    set smartcase                   " But case-sensitive if has caps
-    set scrolloff=3                 " Show 3 lines around cursor (more context)
-    set noshowmode                  " hide the default mode text (e.g. -- INSERT --)
-    set title                       " Set the terminal's title
-
-    " Open new split panes to the right and bottom, which feels more natural
-    set splitbelow
-    set splitright
-" 
-
-
-" Indenting and tabs g
-    set smartindent         " be smart about it
-    set nowrap              " do not wrap lines please
-    set tabstop=4
-    set softtabstop=4
-    set shiftwidth=4        " no clue what this does
-    set shiftround          " if spaces, TAB maps to right spot
-
-    " Change tabs to spaces, or the other way around. Good for Python!
-    nmap <leader>1 :set et<cr>:retab<cr>
-    nmap <leader>2 :set noet<cr>:retab!<cr>
-    " remove trailing spaces
-" 
-
 
 " Buffer Management g
     nnoremap <silent> <S-Up> :wincmd k<CR>
@@ -199,26 +215,8 @@ highlight Search term=bold ctermbg=225 guibg=LightMagenta
 " 
 
 " Skeleton files with todo templates g
-"use .vim/skel/template.html template for editing new files that match *.html
-" au! BufNewFile * silent! 0r ~/.vim/skel/template.%:e
+au! BufNewFile * silent! 0r ~/.config/nvim/skel/template.%:e
 
-au! BufNewFile * call LoadTemplate()
-function! LoadTemplate()
-        silent! 0r ~/.vim/skel/template.%:e
-        " Highlight %VAR% placeholders with the Todo colour group
-        syn match Todo "%\u\+%" containedIn=ALL
-endfunction
-" Jump between %VAR% placeholders in Insert mode with <Ctrl-p>
-inoremap <c-p> <ESC>/%\u.\{-1,}%<cr>c/%/
-nnoremap <c-p> /%\u.\{-1,}%<cr>c/%/e<cr>
-" 
-
-" Filetypes g
-" Automatically insert line breaks in text files
-" au BufEnter *.txt setl tx fo+=n2a linebreak
-
-" au BufNewFile,BufRead *.jade set filetype=jade
-" 
 
 " Tabbed Windows g
     nnoremap + :tabnew<CR>
@@ -236,29 +234,27 @@ nnoremap <c-p> /%\u.\{-1,}%<cr>c/%/e<cr>
     noremap <leader>tm :tabmove
 " 
 
-" Plugins g
-    " Follow install directions here:
-    " https://github.com/junegunn/vim-plug
-    "
-    if empty(glob('~/.config/nvim/autoload/plug.vim'))
-      silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall
-    endif
+"""""""""
+" PLUGINS
+"""""""""
+" Follow install directions here: https://github.com/junegunn/vim-plug
+" Next 4 lines auto download the plugin manager
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall
+endif
 
-    call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
-	" Plug 'tpope/vim-sensible'			" not needed with neovim
+Plug 'kassio/neoterm'
 
-	Plug 'kassio/neoterm'
-
-	" Python
+" Python
 "	Plug 'neomake/neomake'
 "	let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']
 "	let g:neomake_python_flake8_maker = { 'args': ['--ignore=E302,E501'], }
 "	autocmd! BufWritePost * Neomake
 "
-	" For R language
+" For R language
 "	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
 "	Plug 'jalvesaq/colorout', { 'for': 'r' }
 "	vmap <Space> <Plug>RDSendSelection
@@ -269,40 +265,39 @@ nnoremap <c-p> /%\u.\{-1,}%<cr>c/%/e<cr>
 "	" I needed to run `brew link --force readline` in order to get gcc5
 "	" to compile nvimcom (which updates automatically when you invoke nvim-r)
 
-    Plug 'kshenoy/vim-signature'                    " show marks in margin
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-repeat'
-    Plug 'tpope/vim-commentary'                     " smarter commenting with gc
-    Plug 'altercation/vim-colors-solarized'
-    Plug 'matchit.zip'                              " smarter % key matching
+Plug 'kshenoy/vim-signature'                    " show marks in margin
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'                     " smarter commenting with gc
+Plug 'altercation/vim-colors-solarized'
+Plug 'matchit.zip'                              " smarter % key matching
 
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    let g:airline_powerline_fonts = 1
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts = 1
 
-    " Evaluate for future install
-    " Plug 'zaiste/tmux.vim'                    " syntax for tmux?
-    " Plug 'airblade/vim-gitgutter'             " shows git diff marks in the gutter
-    " Plug 'nathanaelkane/vim-indent-guides'    " toggle visual indent guides
-    "    nmap <silent> <leader>g <Plug>IndentGuidesToggle
-    " Plug 'jistr/vim-nerdtree-tabs'
-    "    nnoremap <leader>u <plug>NERDTreeTabsToggle<cr>
-    " Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-    "    nnoremap <leader>nt :NERDTree<cr>
-    " Plug 'mattn/emmet-vim'                    " ctrl+e expands html tags
-    "     let g:user_emmet_leader_key = '<c-e>'
-    " Plug 'vim-scripts/dbext.vim' { 'for': 'sql' }
+" Evaluate for future install
+" Plug 'zaiste/tmux.vim'                    " syntax for tmux?
+" Plug 'airblade/vim-gitgutter'             " shows git diff marks in the gutter
+" Plug 'nathanaelkane/vim-indent-guides'    " toggle visual indent guides
+"    nmap <silent> <leader>g <Plug>IndentGuidesToggle
+" Plug 'jistr/vim-nerdtree-tabs'
+"    nnoremap <leader>u <plug>NERDTreeTabsToggle<cr>
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+"    nnoremap <leader>nt :NERDTree<cr>
+" Plug 'mattn/emmet-vim'                    " ctrl+e expands html tags
+"     let g:user_emmet_leader_key = '<c-e>'
+" Plug 'vim-scripts/dbext.vim' { 'for': 'sql' }
 
-    " Syntax extensions
-    " Plug 'groenewege/vim-less'
-    " Plug 'digitaltoad/vim-jade'
-    " Plug 'wavded/vim-stylus'
-    " Plug 'kchmck/vim-coffee-script'
-    " Plug 'tpope/vim-markdown'
-    
-    call plug#end()
+" Syntax extensions
+" Plug 'groenewege/vim-less'
+" Plug 'digitaltoad/vim-jade'
+" Plug 'wavded/vim-stylus'
+" Plug 'kchmck/vim-coffee-script'
+" Plug 'tpope/vim-markdown'
 
-" 
+call plug#end()
+
 
 " Use the Silver Searcher https://github.com/ggreer/the_silver_server
 " requires: brew install ag
@@ -314,24 +309,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" Colors (solarized) g
-    " let g:solarized_contrast="high"     
-    " let g:solarized_visibility="high"
-    " call togglebg#map("<leader>x")          " ,x toggles dark/light
-
-    " let profile = $ITERM_PROFILE
-    " if profile ==? 'solarized-dark'
-    "     set background=dark                 " light | dark
-    "     hi colorcolumn ctermbg=darkgrey
-    " else
-    "     set background=light
-    "     hi colorcolumn ctermbg=lightgrey
-    " endif
-    " colorscheme solarized
-    " "  Remove next line comment to force dark color scheme.
-    " "  Usually it's picked because iTerm2 will pass it in.
-    " " setenv ITERM_PROFILE solarized-dark
-" 
 
 " Auto Commands autocmds g
 
@@ -390,7 +367,6 @@ nnoremap <leader>$ :silent call TrimWhiteSpace()<CR>
 " http://technotales.wordpress.com/2011/05/21/node-jslint-and-vim/
 
 nnoremap <F4> :w<CR>:make<CR>:cw<CR>
-" highlight SpecialKey term=bold cterm=bold     " use reverse if bold isn't enough
 
 " Go into WordProcessorMode when typing Markdown paragraphs: <leader>0
 " http://www.drbunsen.org/writing-in-vim/
@@ -457,8 +433,6 @@ nmap <space> <Plug>RDSendLine
 let vimrplugin_applescript=0
 let vimrplugin_vsplit=1
 
-highlight Search term=bold ctermbg=225 guibg=LightMagenta
-
 " au BufEnter,BufRead *.py set ai sw=2 ts=2 sts=2 sta et fo=croql
 
 " PEP8 has defined the proper indentation for Python
@@ -483,6 +457,7 @@ tnoremap <Esc><Esc> <C-\><C-n><C-w>k
 
 " Some tips for making relative line numbers good in VIM
 " http://jeffkreeftmeijer.com/2012/relative-line-numbers-in-vim-for-super-fast-movement/
+" alsdkfj
 
 function! NumberToggle()
   if(&relativenumber == 1)
@@ -492,7 +467,7 @@ function! NumberToggle()
   endif
 endfunc
 
+" In relative line number mode:
+" -# to jump back # lines
+" #j to jump forward # lines
 nnoremap <C-n> :call NumberToggle()<cr>
-"au InsertEnter * :set norelativenumber
-"au InsertLeave * :set relativenumber
-
