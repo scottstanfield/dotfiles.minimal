@@ -98,6 +98,7 @@ set splitright
     " Two quick jk exits insert mode (odd, I know)
     inoremap jk <Esc>
 
+
     " Q for formatting paragraph or selection
     vnoremap Q gq
     nnoremap Q gqap
@@ -258,16 +259,16 @@ endif
 "	let g:neomake_python_flake8_maker = { 'args': ['--ignore=E302,E501'], }
 "	autocmd! BufWritePost * Neomake
 "
-" For R language
-"	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
-"	Plug 'jalvesaq/colorout', { 'for': 'r' }
-"	vmap <Space> <Plug>RDSendSelection
-"	nmap <Space> <Plug>RDSendLine
-"	let R_assign = 0
-"	let R_vsplit = 1
-"	let R_args = ['--no-save']
-"	" I needed to run `brew link --force readline` in order to get gcc5
-"	" to compile nvimcom (which updates automatically when you invoke nvim-r)
+	" For R language
+	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
+	Plug 'jalvesaq/colorout', { 'for': 'r' }
+	vmap <Space> <Plug>RDSendSelection
+	nmap <Space> <Plug>RDSendLine
+	let R_assign = 0
+	let R_vsplit = 1
+	let R_args = ['--no-save']
+	" I needed to run `brew link --force readline` in order to get gcc5
+	" to compile nvimcom (which updates automatically when you invoke nvim-r)
 
 Plug 'kshenoy/vim-signature'                    " show marks in margin
 Plug 'tpope/vim-surround'
