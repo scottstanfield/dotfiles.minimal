@@ -2,8 +2,22 @@ let mapleader = ","             " Our free key to prefix custom commands
 let localleader = "\\"
 set hidden                      " switch buffers w/o saving
 set shell=/bin/sh
-set clipboard=unnamed			" Use the global, system clipboard
 
+
+" mimic emacs line editing in insert-mode only
+ino <C-A> <Home>
+ino <C-B> <Left>
+ino <C-D> <Del>
+ino <C-E> <End>
+ino <C-F> <Right>
+ino <C-K> <Esc>lDa
+ino <C-U> <Esc>d0xi
+ino <C-Y> <Esc>Pa
+ino <C-X><C-S> <Esc>:w<CR>a
+
+" control-s to save current file
+imap <C-S> <Esc>:w<CR>a
+noremap <C-S> :w<CR>
 
 """"""""
 " COLORS
@@ -210,7 +224,7 @@ set splitright
 
     " Execute buffer in Python
     " nnoremap <leader>p :w<CR>:!driver.sh <CR>
-    nnoremap <leader>p :w<CR>:!python3 % --test <CR>
+    " nnoremap <leader>p :w<CR>:!python3 % --test <CR>
     " nnoremap <leader>p :w<CR>:!/usr/bin/env awk -f % data.csv <CR>
     " nnoremap <leader>p :w<CR>:!/usr/bin/env node % <CR>
 " 
@@ -262,13 +276,19 @@ endif
 	" For R language
 	Plug 'jalvesaq/Nvim-r',   { 'for': 'r' }
 	Plug 'jalvesaq/colorout', { 'for': 'r' }
-	vmap <Space> <Plug>RDSendSelection
-	nmap <Space> <Plug>RDSendLine
+	vmap <silent> <Space> <Plug>RSendSelection<Esc><Esc>
+	nmap <silent> <Space> :call SendLineToR("stay")<CR><Esc><Home><Down>
+	" nmap <Space> <Plug>RDSendLine
 	let R_assign = 0
 	let R_vsplit = 1
 	let R_args = ['--no-save']
 	" I needed to run `brew link --force readline` in order to get gcc5
 	" to compile nvimcom (which updates automatically when you invoke nvim-r)
+
+	" maltese
+	nmap <silent> ✠ :call SendLineToR("stay")<CR><Esc><Home><Down>
+	imap <silent> ✠ <Esc>:call SendLineToR("stay")<CR><Esc>A
+	vmap ✠ <Plug>RSendSelection<Esc><Esc>
 
 Plug 'kshenoy/vim-signature'                    " show marks in margin
 Plug 'tpope/vim-surround'
@@ -452,9 +472,9 @@ nnoremap <silent> ,yc :call neoterm#kill()<cr>
 " iTerm2 send control-enter <C-Enter> so I have it's profile
 " send the Maltese cross instead. 
 " https://stackoverflow.com/questions/5388562/cant-map-s-cr-in-vim
-nnoremap <silent> ✠ :TREPLSendLine<cr>j
-inoremap <silent> ✠ <ESC>:TREPLSendLine<cr>A
-vnoremap <silent> ✠ :TREPLSendSelection<cr>gv
+"nnoremap <silent> ✠ :TREPLSendLine<cr>j
+"inoremap <silent> ✠ <ESC>:TREPLSendLine<cr>A
+"vnoremap <silent> ✠ :TREPLSendSelection<cr>gv
 
 " Easily get out of Terminal mode
 tnoremap <Esc> <C-\><C-n>
